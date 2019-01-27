@@ -4,10 +4,10 @@ import { Query } from 'react-apollo';
 import styled from 'styled-components';
 import gql from 'graphql-tag';
 
-import FlexBox from '../../components/Flexbox'
-import Sidebar from '../../components/Sidebar'
-import Loader from '../../components/Loader'
-import ProjectList from '../../components/ProjectList'
+import FlexBox from '../../components/Flexbox';
+import Sidebar from '../../components/Sidebar';
+import ProjectList from '../../components/ProjectList';
+import PriceChartContainer from './PriceChartContainer';
 import getAllProjectsQuery from '../../services/graphql/queries/getAllProjects.graphql';
 
 const Wrapper = styled(FlexBox)`
@@ -27,6 +27,7 @@ class Home extends React.Component {
             <Sidebar>
               <ProjectList projects={data && data.allProjects} isLoading={loading}/>
             </Sidebar>
+            <PriceChartContainer slug={this.props.match.params.slug} />
           </Wrapper>
         )}
       </Query>

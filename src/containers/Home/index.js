@@ -2,8 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Query } from 'react-apollo';
 import styled from 'styled-components';
+import domToImage from 'dom-to-image';
 
 import FlexBox from '../../components/Flexbox';
+import hideableViewStyles from '../../styles/hideableViewStyles';
+import { fullSizeView } from '../../styles/core';
 import Sidebar from '../../components/Sidebar';
 import ProjectList from '../../components/ProjectList';
 import PriceChartContainer from './PriceChartContainer';
@@ -11,11 +14,25 @@ import PriceChartContainer from './PriceChartContainer';
 import getAllProjectsQuery from '../../services/graphql/queries/getAllProjectsQuery';
 
 const Wrapper = styled(FlexBox)`
-  width: 100%;
-  height: 100%;
+  ${fullSizeView}
+  ${hideableViewStyles}
 `;
 
 class Home extends React.Component {
+  saveToPng = async () => {
+    const chartElement = document.getElementsByClassName('recharts-wrapper')[0];
+    domToImage.toJpeg(chartElement)
+      .then((dataUrl) => {
+        const link = document.createElement('a');
+        link.download = `${this.props.match.params.slug}.jpeg`;
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((error) => {
+        console.error('oops, something went wrong!', error);
+      });
+  }
+
   render() {
     return (
       <Query
@@ -23,7 +40,7 @@ class Home extends React.Component {
         variables={{ pageSize: 10, page: 1 }}
       >
         {({ loading, error, data }) => (
-          <Wrapper>
+          <Wrapper hidden={this.props.downloadMode}>
             <Sidebar>
               <ProjectList projects={data && data.allProjects} isLoading={loading}/>
             </Sidebar>
@@ -33,9 +50,17 @@ class Home extends React.Component {
       </Query>
     );
   }
+
+  componentDidMount() {
+    if (this.props.downloadMode) {
+      setTimeout(this.saveToPng, 2000);
+    }
+  }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = (state, ownProps) => ({
+  downloadMode: ownProps.location.search.includes('?format=jpeg'),
+});
 
 const mapDispatchToProps = dispatch => ({});
 

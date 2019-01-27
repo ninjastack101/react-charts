@@ -1,0 +1,7 @@
+query ($pageSize: Int, $page: Int) {
+  allProjects(pageSize: $pageSize, page: $page) {
+    slug
+    name
+    id
+  }
+}

@@ -16,6 +16,10 @@ const Wrapper = styled(FlexBox)`
   justify-content: center;
   align-items: center;
   position: relative;
+
+  .recharts-wrapper {
+    background-color: white;
+  }
 `;
 
 const PriceChartContainer = ({ from, to, slug }) => {

@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 import styled from 'styled-components';
 
 import FlexBox from '../../components/Flexbox'
 import Loader from '../../components/Loader'
 import PriceChart from '../../components/PriceChart'
 import formatOhlcPrice from '../../utils/formatOhlcPrice';
-import getOhlcQuery from '../../services/graphql/queries/getOhlc.graphql';
+
+import getOhlcQuery from '../../services/graphql/queries/getOhlcQuery';
 
 const Wrapper = styled(FlexBox)`
   width: 100%;
@@ -25,7 +25,7 @@ const PriceChartContainer = ({ from, to, slug }) => {
 
   return (
     <Wrapper>
-      <Query query={gql`${getOhlcQuery}`} variables={{ from, to, slug }}>
+      <Query query={getOhlcQuery} variables={{ from, to, slug }}>
         {({ loading, error, data }) => {
           if (loading) {
             return <Loader />;

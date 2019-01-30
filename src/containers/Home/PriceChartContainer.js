@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import FlexBox from '../../components/Flexbox'
 import Loader from '../../components/Loader'
+import NativeLink from '../../components/NativeLink'
 import PriceChart from '../../components/PriceChart'
 import formatOhlcPrice from '../../utils/formatOhlcPrice';
 import { flexCenteredView, fullSizeView } from '../../styles/core';
@@ -20,13 +21,17 @@ const Wrapper = styled(FlexBox)`
   }
 `;
 
+const ChartWrapper = styled(FlexBox)`
+  align-items: center;
+`;
+
 const PriceChartContainer = ({ from, to, slug }) => {
   if (!slug) {
     return null;
   }
 
   return (
-    <Wrapper>
+    <Wrapper column>
       <Query query={getOhlcQuery} variables={{ from, to, slug }}>
         {({ loading, error, data }) => {
           if (loading) {
@@ -34,7 +39,14 @@ const PriceChartContainer = ({ from, to, slug }) => {
           }
 
           if (!error && data) {
-            return <PriceChart isLoading={loading} prices={formatOhlcPrice(data.ohlc)} />;
+            return (
+              <ChartWrapper column>
+                <PriceChart isLoading={loading} prices={formatOhlcPrice(data.ohlc)} />
+                <NativeLink href="?format=jpeg" target="_blank">
+                  Download as JPEG
+                </NativeLink>
+              </ChartWrapper>
+            );
           }
 
           return null;

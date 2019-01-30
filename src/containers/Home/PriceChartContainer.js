@@ -7,14 +7,12 @@ import FlexBox from '../../components/Flexbox'
 import Loader from '../../components/Loader'
 import PriceChart from '../../components/PriceChart'
 import formatOhlcPrice from '../../utils/formatOhlcPrice';
-
+import { flexCenteredView, fullSizeView } from '../../styles/core';
 import getOhlcQuery from '../../services/graphql/queries/getOhlcQuery';
 
 const Wrapper = styled(FlexBox)`
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
+  ${flexCenteredView}
+  ${fullSizeView}
   position: relative;
 
   .recharts-wrapper {

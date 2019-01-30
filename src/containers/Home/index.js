@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Query } from 'react-apollo';
 import styled from 'styled-components';
@@ -66,6 +67,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 Home.propTypes = {
+  downloadMode: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(Home);

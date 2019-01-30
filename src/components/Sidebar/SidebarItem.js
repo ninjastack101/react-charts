@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import StyledLink from '../StyledLink';
@@ -17,5 +18,10 @@ const SidebarItem = ({ label, to }) => (
     </StyledLink>
   </Wrapper>
 );
+
+SidebarItem.propTypes = {
+  to: PropTypes.string,
+  label: PropTypes.string,
+};
 
 export default SidebarItem;

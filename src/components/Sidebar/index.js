@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import SidebarHeader from './SidebarHeader';
 import SidebarItem from './SidebarItem';
@@ -17,14 +18,14 @@ const ContentWrapper = styled('div')`
   max-height: calc(100% - 80px);
 `;
 
-const Sidebar = ({ children, headerText, sidebarItems, isContentLoading }) => (
+const Sidebar = ({ headerText, sidebarItems, isContentLoading }) => (
   <Wrapper>
     {headerText && <SidebarHeader>{headerText}</SidebarHeader>}
     <ContentWrapper>
       {isContentLoading && <Loader />}
       {sidebarItems && sidebarItems.map(sidebarItem => (
         <SidebarItem
-          key={sidebarItem.to}
+          key={sidebarItem.id}
           to={sidebarItem.to}
           label={sidebarItem.label}
         />
@@ -32,5 +33,17 @@ const Sidebar = ({ children, headerText, sidebarItems, isContentLoading }) => (
     </ContentWrapper>
   </Wrapper>
 );
+
+Sidebar.propTypes = {
+  headerText: PropTypes.string,
+  isContentLoading: PropTypes.bool,
+  sidebarItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      to: PropTypes.string,
+      label: PropTypes.string,
+    }),
+  ),
+};
 
 export default Sidebar;

@@ -20,7 +20,4 @@ const App = () => (
   </RootWrapper>
 );
 
-App.propTypes = {
-};
-
 export default App;

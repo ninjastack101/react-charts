@@ -8,9 +8,9 @@ import FlexBox from '../../components/Flexbox';
 import hideableViewStyles from '../../styles/hideableViewStyles';
 import { fullSizeView } from '../../styles/core';
 import Sidebar from '../../components/Sidebar';
-import ProjectList from '../../components/ProjectList';
 import PriceChartContainer from './PriceChartContainer';
 
+import formatProjectsForSidebar from '../../utils/formatProjectsForSidebar';
 import getAllProjectsQuery from '../../services/graphql/queries/getAllProjectsQuery';
 
 const Wrapper = styled(FlexBox)`
@@ -41,9 +41,11 @@ class Home extends React.Component {
       >
         {({ loading, error, data }) => (
           <Wrapper hidden={this.props.downloadMode}>
-            <Sidebar>
-              <ProjectList projects={data && data.allProjects} isLoading={loading}/>
-            </Sidebar>
+            <Sidebar
+              headerText={'Projects'}
+              sidebarItems={formatProjectsForSidebar((data && data.allProjects) || [])}
+              isContentLoading={loading}
+            />
             <PriceChartContainer slug={this.props.match.params.slug} />
           </Wrapper>
         )}
@@ -62,8 +64,7 @@ const mapStateToProps = (state, ownProps) => ({
   downloadMode: ownProps.location.search.includes('?format=jpeg'),
 });
 
-const mapDispatchToProps = dispatch => ({});
+Home.propTypes = {
+};
 
-Home.propTypes = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps)(Home);

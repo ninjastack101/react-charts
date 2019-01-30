@@ -27,6 +27,7 @@ class Home extends React.Component {
         link.download = `${this.props.match.params.slug}.jpeg`;
         link.href = dataUrl;
         link.click();
+        window.close();
       })
       .catch((error) => {
         console.error('oops, something went wrong!', error);

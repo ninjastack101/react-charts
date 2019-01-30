@@ -28,12 +28,12 @@ class Home extends React.Component {
         link.download = `${this.props.match.params.slug}.jpeg`;
         link.href = dataUrl;
         link.click();
-        window.close();
+        setTimeout(window.close, 500);
       })
       .catch((error) => {
         console.error('oops, something went wrong!', error);
       });
-  }
+  };
 
   render() {
     return (

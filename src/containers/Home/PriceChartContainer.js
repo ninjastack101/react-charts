@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import FlexBox from '../../components/Flexbox'
 import Loader from '../../components/Loader'
+import H2 from '../../components/H2'
 import NativeLink from '../../components/NativeLink'
 import PriceChart from '../../components/PriceChart'
 import formatOhlcPrice from '../../utils/formatOhlcPrice';
@@ -42,6 +43,7 @@ const PriceChartContainer = ({ from, to, slug }) => {
           if (!error && data) {
             return (
               <ChartWrapper column>
+                <H2>OHLC Price Chart</H2>
                 <PriceChart isLoading={loading} prices={formatOhlcPrice(data.ohlc)} />
                 <NativeLink href="?format=jpeg" target="_blank">
                   Download as JPEG

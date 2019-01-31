@@ -28,6 +28,7 @@ export const priceChartDefaultProps = {
 
 const Wrapper = styled('div')`
   ${fullSizeView}
+  margin: 20px auto;
 `;
 
 const PriceChart = ({ prices, overrideProps }) => (

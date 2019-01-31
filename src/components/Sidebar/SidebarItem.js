@@ -8,11 +8,12 @@ import { flexCenteredView } from '../../styles/core';
 const Wrapper = styled('div')`
   width: 100%;
   height: 50px;
+  background-color: ${({ active }) => active ? 'red' : 'initial'};
   ${flexCenteredView}
 `;
 
-const SidebarItem = ({ label, to }) => (
-  <Wrapper>
+const SidebarItem = ({ label, to, active }) => (
+  <Wrapper active={active}>
     <StyledLink to={to}>
       {label}
     </StyledLink>
@@ -22,6 +23,7 @@ const SidebarItem = ({ label, to }) => (
 SidebarItem.propTypes = {
   to: PropTypes.string,
   label: PropTypes.string,
+  active: PropTypes.bool,
 };
 
 export default SidebarItem;

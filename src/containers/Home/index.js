@@ -59,6 +59,7 @@ class Home extends React.Component {
             <Sidebar
               headerText={'Projects'}
               sidebarItems={formatProjectsForSidebar((data && data.allProjects) || [])}
+              selectedSidebarItem={this.props.slug}
               isContentLoading={loading}
             />
             <PriceChartContainer

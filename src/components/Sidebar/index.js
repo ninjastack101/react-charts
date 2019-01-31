@@ -18,7 +18,12 @@ const ContentWrapper = styled('div')`
   max-height: calc(100% - 80px);
 `;
 
-const Sidebar = ({ headerText, sidebarItems, isContentLoading }) => (
+const Sidebar = ({
+  headerText,
+  sidebarItems,
+  isContentLoading,
+  selectedSidebarItem,
+}) => (
   <Wrapper>
     {headerText && <SidebarHeader>{headerText}</SidebarHeader>}
     <ContentWrapper>
@@ -28,6 +33,7 @@ const Sidebar = ({ headerText, sidebarItems, isContentLoading }) => (
           key={sidebarItem.id}
           to={sidebarItem.to}
           label={sidebarItem.label}
+          active={selectedSidebarItem === sidebarItem.to}
         />
       ))}
     </ContentWrapper>
@@ -37,6 +43,7 @@ const Sidebar = ({ headerText, sidebarItems, isContentLoading }) => (
 Sidebar.propTypes = {
   headerText: PropTypes.string,
   isContentLoading: PropTypes.bool,
+  selectedSidebarItem: PropTypes.string,
   sidebarItems: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,

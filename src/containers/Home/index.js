@@ -12,6 +12,7 @@ import Sidebar from '../../components/Sidebar';
 import PriceChartContainer from './PriceChartContainer';
 
 import formatProjectsForSidebar from '../../utils/formatProjectsForSidebar';
+import withDownloadMode from '../../utils/withDownloadMode';
 import getAllProjectsQuery from '../../services/graphql/queries/getAllProjectsQuery';
 import { createParamSelector } from '../../selectors/locationSelectors';
 import {
@@ -96,4 +97,4 @@ Home.propTypes = {
   slug: PropTypes.string,
 };
 
-export default connect(mapStateToProps)(Home);
+export default withDownloadMode(connect(mapStateToProps)(Home));

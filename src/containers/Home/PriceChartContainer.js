@@ -27,6 +27,7 @@ const ChartWrapper = styled(FlexBox)`
 
 const PriceChartContainer = ({ from, to, slug }) => {
   if (!slug) {
+    // render notihng if no project is selected from the sidebar.
     return null;
   }
 
@@ -60,11 +61,6 @@ PriceChartContainer.propTypes = {
   from: PropTypes.string,
   to: PropTypes.string,
   slug: PropTypes.string,
-};
-
-PriceChartContainer.defaultProps = {
-  from: "2018-12-01T14:30:03Z",
-  to: "2019-01-01T14:30:03Z",
 };
 
 export default PriceChartContainer;

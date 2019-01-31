@@ -13,6 +13,12 @@ import PriceChartContainer from './PriceChartContainer';
 
 import formatProjectsForSidebar from '../../utils/formatProjectsForSidebar';
 import getAllProjectsQuery from '../../services/graphql/queries/getAllProjectsQuery';
+import { createParamSelector } from '../../selectors/locationSelectors';
+import {
+  selectToDate,
+  selectFromDate,
+  selectPagination,
+} from '../../selectors/priceChartSelectors';
 
 const Wrapper = styled(FlexBox)`
   ${fullSizeView}
@@ -20,15 +26,18 @@ const Wrapper = styled(FlexBox)`
 `;
 
 class Home extends React.Component {
-  saveToPng = async () => {
-    const chartElement = document.getElementsByClassName('recharts-wrapper')[0];
+  /**
+   * Function to save the rendered chart as JPEG.
+   */
+  saveToJpeg = async () => {
+    const chartElement = document.getElementById('ohlc-chart');
     domToImage.toJpeg(chartElement)
       .then((dataUrl) => {
         const link = document.createElement('a');
         link.download = `${this.props.match.params.slug}.jpeg`;
         link.href = dataUrl;
         link.click();
-        setTimeout(window.close, 500);
+        setTimeout(window.close, 500); // closing immediately skips download sometimes.
       })
       .catch((error) => {
         console.error('oops, something went wrong!', error);
@@ -39,7 +48,10 @@ class Home extends React.Component {
     return (
       <Query
         query={getAllProjectsQuery}
-        variables={{ pageSize: 10, page: 1 }}
+        variables={{
+          pageSize: this.props.pagination.pageSize,
+          page: this.props.pagination.page,
+        }}
       >
         {({ loading, error, data }) => (
           <Wrapper hidden={this.props.downloadMode}>
@@ -48,7 +60,11 @@ class Home extends React.Component {
               sidebarItems={formatProjectsForSidebar((data && data.allProjects) || [])}
               isContentLoading={loading}
             />
-            <PriceChartContainer slug={this.props.match.params.slug} />
+            <PriceChartContainer
+              slug={this.props.slug}
+              from={this.props.fromDate}
+              to={this.props.toDate}
+            />
           </Wrapper>
         )}
       </Query>
@@ -57,17 +73,27 @@ class Home extends React.Component {
 
   componentDidMount() {
     if (this.props.downloadMode) {
-      setTimeout(this.saveToPng, 2000);
+      /**
+       * TODO: Didn't found any event like onFinishAnimation from recharts.
+       * Should be optimized in future.
+       */ 
+      setTimeout(this.saveToJpeg, 2000);
     }
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  downloadMode: ownProps.location.search.includes('?format=jpeg'),
+  fromDate: selectFromDate(state),
+  toDate: selectToDate(state),
+  pagination: selectPagination(state),
+  slug: createParamSelector(ownProps, 'slug')(state),
 });
 
 Home.propTypes = {
   downloadMode: PropTypes.bool,
+  fromDate: PropTypes.string,
+  toDate: PropTypes.string,
+  slug: PropTypes.string,
 };
 
 export default connect(mapStateToProps)(Home);

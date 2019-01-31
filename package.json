@@ -69,7 +69,8 @@
   },
   "scripts": {
     "start:dev": "node scripts/start.js",
-    "start": "node server",
+    "start:prod": "node server",
+    "start": "npm run build && npm run start:prod",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
   },
